@@ -21,6 +21,13 @@ namespace Day__12
             Z = z;
         }
 
+        private static int A(int n) => Math.Abs(n);
+
+        public int KineticEnergy => A(X) + A(Y) + A(Z);
+        public int PotentialEnergy => A(vX) + A(vY) + A(vZ);
+
+        public int TotalEnergy => KineticEnergy * PotentialEnergy;
+
         public static Moon Parse(string input)
         {
             var split = input.Split(',').Select(x => new string(x.Where(y => char.IsNumber(y) || y == '-').ToArray())).Select(int.Parse).ToArray();
@@ -30,8 +37,6 @@ namespace Day__12
 
     internal class Program
     {
-        private static int A(int n) => Math.Abs(n);
-
         private static void Main()
         {
             var moons = File.ReadAllLines("input3").Select(Moon.Parse).ToArray();
@@ -70,7 +75,7 @@ namespace Day__12
                 if (steps == 1000)
                 {
                     Console.WriteLine("Total energy:");
-                    Console.WriteLine(moons.Select(x => (A(x.X) + A(x.Y) + A(x.Z)) * (A(x.vX) + A(x.vY) + A(x.vZ))).Sum());
+                    Console.WriteLine(moons.Sum(x => x.TotalEnergy));
                 }
 
                 if (xCycle == -1 && moons.All(x => x.vX == 0))
