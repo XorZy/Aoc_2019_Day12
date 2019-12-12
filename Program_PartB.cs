@@ -30,6 +30,8 @@ namespace Day__12
 
     internal class Program
     {
+        private static int A(int n) => Math.Abs(n);
+
         private static void Main()
         {
             var moons = File.ReadAllLines("input3").Select(Moon.Parse).ToArray();
@@ -65,6 +67,12 @@ namespace Day__12
 
                 steps++;
 
+                if (steps == 1000)
+                {
+                    Console.WriteLine("Total energy:");
+                    Console.WriteLine(moons.Select(x => (A(x.X) + A(x.Y) + A(x.Z)) * (A(x.vX) + A(x.vY) + A(x.vZ))).Sum());
+                }
+
                 if (xCycle == -1 && moons.All(x => x.vX == 0))
                     xCycle = steps;
 
@@ -76,6 +84,7 @@ namespace Day__12
 
                 if (xCycle > -1 && yCycle > -1 && zCycle > -1)
                 {
+                    Console.WriteLine("Cycle period:");
                     Console.WriteLine(MathNet.Numerics.Euclid.LeastCommonMultiple(new[] { xCycle, yCycle, zCycle }) * 2);
                     break;
                 }
